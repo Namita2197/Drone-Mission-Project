@@ -1,48 +1,28 @@
+import java.net.InetAddress;
 import java.util.Scanner;
 
 public class Flier {
 
-    public static void main(String[] args) throws Exception {
-        Communicator commune = new Communicator();
-        commune.setupConnection();
+    DroneFlyBehaviour droneFlyBehaviour;
 
-       /* System.out.println("taking off.....");
-        commune.takeOff();
-        System.out.println("landing...");
-        commune.land();*/
+    public Flier(String iPAddress,int dronePort,int missionChoice) throws Exception {
+        Communicator communicator= new Communicator(iPAddress,dronePort);
 
-       Missions fly = new Missions();
-       fly.moveLeft();
-
-       System.out.println("MISSION LEFT SUCCESSFUL!");
-
-
+        if(missionChoice==1) {
+            droneFlyBehaviour =new MissionFlyForward(communicator);
+        }
+        else if(missionChoice==2){
+            droneFlyBehaviour = new MissionFlyBackward(communicator);
+        }
+        else if(missionChoice==3){
+            droneFlyBehaviour = new MissionFlipForward(communicator);
+        }
+        else{
+            System.out.println("INVALID INPUT");
+        }
+    }
+    public void performMission() throws Exception {
+        droneFlyBehaviour.performMission();
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   //      Scanner scanner = new Scanner(System.in);
-
-   //     int mission = scanner.nextInt();
-   //     if(mission == 1){
-
-
-   //          commune.takeOff();
-  //      }
-
-  //  }
-
-//}
